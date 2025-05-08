@@ -18,6 +18,23 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/admin/dashboard', function () {
+    return Inertia::render('AdminPages/AdminDashboard');
+})->middleware(['auth', 'verified'])->name('/admin/dashboard');
+
+Route::get('/users', function () {
+    return Inertia::render('AdminPages/Users');
+})->middleware(['auth', 'verified'])->name('users');
+
+
+Route::get('/services', function () {
+    return Inertia::render('AdminPages/Services');
+})->middleware(['auth', 'verified'])->name('services');
+
+Route::get('/settings', function () {
+    return Inertia::render('AdminPages/Settings');
+})->middleware(['auth', 'verified'])->name('settings');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
