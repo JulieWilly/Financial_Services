@@ -1,7 +1,8 @@
 import ServiceFrm from '@/Components/ServiceFrm';
 import { Inertia } from '@inertiajs/inertia';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Dashboard from '../Dashboard';
+import API from '@/Components/Api';
 const services = [
     {
         id: 1,
@@ -26,6 +27,22 @@ const services = [
     },
 ];
 export default function AdminDashboard() {
+    const [service, setServices] = useState([]);
+
+    const getData = async () => {
+        try {
+            await API.get('/get-services').then((response) => setServices(response.data.data)).catch(err => {
+                console.error('Error fetching services:', err);
+            });
+        } catch(error){
+            console.log('Error');
+        }
+    }
+    useEffect(() => {
+        getData();
+    }, []);
+
+
     const [openFrm, setOpenFrm] = useState(false);
 
     const handleNavigation = (id) => {
@@ -61,7 +78,7 @@ export default function AdminDashboard() {
                             </tr>
                         </thead>
                         <tbody>
-                            {services.map((service) => (
+                            {service.map((service) => (
                                 <tr
                                     key={service.id}
                                     className="text-sm text-gray-800"

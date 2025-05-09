@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
 
     // CRUD operations.
     Route::post('/api/create/service', [ServiceController::class, 'createService']);
+    Route::get('/api/get-services', [ServiceController::class, 'getServices']);
 });
 
 

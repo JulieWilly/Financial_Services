@@ -28,7 +28,7 @@ class ServiceController extends Controller
 
         $res = array(
             'success'=>true,
-            'data' =>$serviceData,
+            'data' =>$resp,
             'message'=> 'All is well'
         );
             
@@ -44,5 +44,27 @@ class ServiceController extends Controller
             );
         }
        return response()->json($res);
+    }
+
+    public function getServices(){
+
+        try{
+            $table = DB::table('services');
+            $qry = $table->get();
+            $res = array(
+                'success' => true,
+                'data' => $qry,
+                'message' => 'All is well'
+            );
+        } catch(\Exception $exception){
+            $res = array(
+                'message' => $exception
+            );
+        } catch(\Throwable $throwable){
+            $res = array(
+                'message' => $throwable
+            );
+        }
+        return response()->json($res);
     }
 }

@@ -11,7 +11,7 @@ const ServiceFrm = ({ openFrm, setOpenFrm }) => {
     const handleSubmit =async (e) => {
         e.preventDefault();
       try {
-        const createService = await API.post(
+        await API.post(
             '/create/service',
             {
                 name,
@@ -20,11 +20,8 @@ const ServiceFrm = ({ openFrm, setOpenFrm }) => {
                 status,
             },
         );
-
-        alert('dsklskl')
-        console.log('result', createService);
-
         
+        setOpenFrm(!openFrm)
       } catch (error) {
         console.log('Error', error);
       }

@@ -1,7 +1,9 @@
+import API from '@/Components/Api';
 import Dashboard from '@/Pages/Dashboard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const ViewService = ({service}) => {
+const ViewService = ({ service }) => {
+    
     const [formData, setFormData] = useState({
         name: service.name,
         description: service.description,
