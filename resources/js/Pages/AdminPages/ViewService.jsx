@@ -1,23 +1,40 @@
 import API from '@/Components/Api';
 import Dashboard from '@/Pages/Dashboard';
+import { usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
-const ViewService = ({ service }) => {
-    
-    const [formData, setFormData] = useState({
-        name: service.name,
-        description: service.description,
-        type: service.type,
-        status: service.status,
-    });
+const ViewService = () => {
+    const {props} = usePage();
+
+    const id = props.id;
+
+    const [service, setService] = useState();
+
+    const getService = async () => {
+        try {
+            await API.get(`/service/${id}/edit`).then((response) => {
+                setService(response.data.data[0])}
+            ).catch(err => console.log('Error', err));            
+        } catch (error) {
+            console.log('Error', error);
+        }
+    }
+    useEffect(() => {
+        getService();
+    }, [id])
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
+        setService({
+            ...service,
             [name]: type === 'checkbox' ? checked : value,
         });
     };
+
+    if (!service) {
+        return <div>Loading...</div>; 
+    }
     return (
         <Dashboard>
             <div className="mx-auto mt-10 max-w-2xl rounded-lg bg-white p-6 shadow-lg">
@@ -33,7 +50,7 @@ const ViewService = ({ service }) => {
                         <input
                             type="text"
                             name="name"
-                            value={formData.name}
+                            value={service.name}
                             onChange={handleChange}
                             className="mt-1 w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
@@ -45,7 +62,7 @@ const ViewService = ({ service }) => {
                         </label>
                         <textarea
                             name="description"
-                            value={formData.description}
+                            value={service.description}
                             onChange={handleChange}
                             rows="4"
                             className="mt-1 w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -56,23 +73,20 @@ const ViewService = ({ service }) => {
                         <label className="block text-sm font-medium text-gray-600">
                             Type
                         </label>
-                        <select
+                        <input
                             name="type"
-                            value={formData.type}
+                            value={service.type}
                             onChange={handleChange}
+                            name='type'
                             className="mt-1 w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="mutual_fund">Mutual Fund</option>
-                            <option value="sip">SIP Plan</option>
-                            <option value="insurance">Insurance</option>
-                        </select>
+                        />
                     </div>
 
                     <div className="flex items-center">
                         <input
                             type="checkbox"
                             name="status"
-                            checked={formData.status}
+                            checked={service.status}
                             onChange={handleChange}
                             className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                         />

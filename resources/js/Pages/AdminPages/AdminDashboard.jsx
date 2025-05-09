@@ -1,8 +1,8 @@
 import ServiceFrm from '@/Components/ServiceFrm';
-import { Inertia } from '@inertiajs/inertia';
 import { useEffect, useState } from 'react';
 import Dashboard from '../Dashboard';
 import API from '@/Components/Api';
+import { router } from '@inertiajs/react';
 const services = [
     {
         id: 1,
@@ -46,7 +46,7 @@ export default function AdminDashboard() {
     const [openFrm, setOpenFrm] = useState(false);
 
     const handleNavigation = (id) => {
-        Inertia.visit(`/${id}/service`);
+        router.visit(`/service/${id}/edit`);
     };
 
     return (

@@ -36,7 +36,7 @@ Route::get('/settings', function () {
     return Inertia::render('AdminPages/Settings');
 })->middleware(['auth', 'verified'])->name('settings');
 
-Route::get('/{id}/service', function ($id) {
+Route::get('/service/{id}/edit', function ($id) {
     return Inertia::render('AdminPages/ViewService', ['id' => $id]);
 })->middleware(['auth', 'verified'])->name('service');
 
@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     // CRUD operations.
     Route::post('/api/create/service', [ServiceController::class, 'createService']);
     Route::get('/api/get-services', [ServiceController::class, 'getServices']);
+    Route::get('/api/service/{id}/edit', [ServiceController::class,'getService']);
 });
 
 

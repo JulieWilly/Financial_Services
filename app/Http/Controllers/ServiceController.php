@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Js;
 
 use function PHPSTORM_META\type;
 
@@ -57,6 +58,29 @@ class ServiceController extends Controller
                 'message' => 'All is well'
             );
         } catch(\Exception $exception){
+            $res = array(
+                'message' => $exception
+            );
+        } catch(\Throwable $throwable){
+            $res = array(
+                'message' => $throwable
+            );
+        }
+        return response()->json($res);
+    }
+
+    public function getService(Request $req) {
+        try{
+            $id = $req->id;
+            $qry = DB::table('services')->where(array('id' => $id));
+            $resp = $qry->get();
+            $res = array(
+                'sucess' => true,
+                'data' => $resp,
+                'message' => 'All is well'
+            );
+
+        }catch(\Exception $exception){
             $res = array(
                 'message' => $exception
             );
