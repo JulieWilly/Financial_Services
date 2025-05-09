@@ -91,4 +91,38 @@ class ServiceController extends Controller
         }
         return response()->json($res);
     }
+
+    public function updateService(Request $req){
+        try{
+            $id = $req->id;
+            // receive data from the front end.
+            $updateData = [
+                'name' => $req->name,
+                'description' => $req->description,
+                'type' => $req->type,
+                'status' =>$req->status
+            ];
+
+            // get table
+            $table_name = DB::table('services');
+            $qry = $table_name->where(array('id' => $id))->update($updateData);
+
+            $resp = $qry;
+            $res = array(
+                'success' => true,
+                'data' => $resp,
+                'message' => 'All is well'
+            );
+
+        } catch(\Exception $exception){
+            $res = array(
+                'error' => $exception
+            );
+        } catch(\Throwable $throwable) {
+            $res = array(
+                'throwable' => $throwable
+            );
+        }
+        return response()->json($res);
+    }
 }

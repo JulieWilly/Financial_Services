@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/create/service', [ServiceController::class, 'createService']);
     Route::get('/api/get-services', [ServiceController::class, 'getServices']);
     Route::get('/api/service/{id}/edit', [ServiceController::class,'getService']);
+    Route::patch('/api/service/{id}/update', [ServiceController::class, 'updateService']);
 });
 
 
