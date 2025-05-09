@@ -1,6 +1,7 @@
 import ServiceFrm from '@/Components/ServiceFrm';
-import Dashboard from '../Dashboard';
+import { Inertia } from '@inertiajs/inertia';
 import { useState } from 'react';
+import Dashboard from '../Dashboard';
 const services = [
     {
         id: 1,
@@ -27,11 +28,13 @@ const services = [
 export default function AdminDashboard() {
     const [openFrm, setOpenFrm] = useState(false);
 
-
+    const handleNavigation = (id) => {
+        Inertia.visit(`/${id}/service`);
+    };
 
     return (
         <Dashboard>
-            <div className="p-4 relative">
+            <div className="relative p-4">
                 <div className="flex flex-row items-center justify-between p-4">
                     <h2 className="mb-4 text-xl font-bold">
                         Financial Services
@@ -85,7 +88,12 @@ export default function AdminDashboard() {
                                         </span>
                                     </td>
                                     <td className="space-x-2 border-b px-4 py-2">
-                                        <button className="rounded bg-blue-500 px-2 py-1 text-xs text-white hover:bg-blue-600">
+                                        <button
+                                            className="rounded bg-blue-500 px-2 py-1 text-xs text-white hover:bg-blue-600"
+                                            onClick={() =>
+                                                handleNavigation(service.id)
+                                            }
+                                        >
                                             Edit
                                         </button>
                                         <button className="rounded bg-red-500 px-2 py-1 text-xs text-white hover:bg-red-600">
@@ -100,7 +108,7 @@ export default function AdminDashboard() {
                 {openFrm == false ? (
                     ''
                 ) : (
-                    <div className='absolute top-20 left-28 rounded-lg bg-gray-500 w-3/4'>
+                    <div className="absolute left-28 top-20 w-3/4 rounded-lg bg-gray-500">
                         <ServiceFrm openFrm={openFrm} setOpenFrm={setOpenFrm} />
                     </div>
                 )}

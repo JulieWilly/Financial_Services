@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
+import API from './Api';
 const ServiceFrm = ({ openFrm, setOpenFrm }) => {
     if (!openFrm) return null;
     const [name, setName] = useState('');
@@ -7,26 +8,43 @@ const ServiceFrm = ({ openFrm, setOpenFrm }) => {
     const [type, setType] = useState('mutual_fund');
     const [status, setStatus] = useState(true);
 
-    const handleSubmit = (e) => {
+    const handleSubmit =async (e) => {
         e.preventDefault();
-        // Form submission logic here
+      try {
+        const createService = await API.post(
+            '/create/service',
+            {
+                name,
+                description,
+                type,
+                status,
+            },
+        );
+
+        alert('dsklskl')
+        console.log('result', createService);
+
+        
+      } catch (error) {
+        console.log('Error', error);
+      }
     };
     return (
-        <div className="rounded-md bg-gray-300 p-4">
+        <div className="rounded-md bg-gray-800 p-4">
             <div className="flex flex-row items-center justify-between pb-4 pt-4">
-                <h2 className="text-xl font-bold">Add New Service</h2>
+                <h2 className="text-xl font-bold text-white">Add New Service</h2>
 
                 <span>
                     <IoCloseSharp
                         size={35}
-                        className="cursor-pointer"
+                        className="cursor-pointer text-white"
                         onClick={() => setOpenFrm(!openFrm)}
                     />
                 </span>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-white">
                         Service Name
                     </label>
                     <input
@@ -39,7 +57,7 @@ const ServiceFrm = ({ openFrm, setOpenFrm }) => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-white">
                         Description
                     </label>
                     <textarea
@@ -51,7 +69,7 @@ const ServiceFrm = ({ openFrm, setOpenFrm }) => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-white">
                         Service Type
                     </label>
                     <select
@@ -66,7 +84,7 @@ const ServiceFrm = ({ openFrm, setOpenFrm }) => {
                     </select>
                 </div>
                 <div>
-                    <label className="inline-flex items-center text-sm font-medium text-gray-700">
+                    <label className="inline-flex items-center text-sm font-medium text-white">
                         <input
                             type="checkbox"
                             checked={status}

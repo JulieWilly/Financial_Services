@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,10 +36,20 @@ Route::get('/settings', function () {
     return Inertia::render('AdminPages/Settings');
 })->middleware(['auth', 'verified'])->name('settings');
 
+Route::get('/{id}/service', function ($id) {
+    return Inertia::render('AdminPages/ViewService', ['id' => $id]);
+})->middleware(['auth', 'verified'])->name('service');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+    // CRUD operations.
+    Route::post('/api/create/service', [ServiceController::class, 'createService']);
 });
+
+
 
 require __DIR__.'/auth.php';
